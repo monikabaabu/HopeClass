@@ -41,7 +41,7 @@ public class MatrixSurroundingUnitDigitSum {
                 for (int d = 0; d < 8; d++) {
                     int ni = i + dx[d], nj = j + dy[d];
                     if (ni >= 0 && ni < R && nj >= 0 && nj < C) {
-                        sum += grid[ni][nj] % 10; // take unit digit
+                        sum += Math.abs(grid[ni][nj] % 10); // take unit digit
                     }
                 }
                 result[i][j] = grid[i][j] + sum;
