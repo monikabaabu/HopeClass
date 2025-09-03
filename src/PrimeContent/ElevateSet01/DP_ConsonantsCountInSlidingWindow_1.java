@@ -43,7 +43,7 @@
 package PrimeContent.ElevateSet01;
 import java.util.*;
 
-public class DP_ConsonantsCountInSlidingWindow {
+public class DP_ConsonantsCountInSlidingWindow_1 {
     private static boolean isConsonant(char ch){
         ch = Character.toLowerCase(ch);
         return "aeiou".indexOf(ch) == -1;
