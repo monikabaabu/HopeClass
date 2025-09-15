@@ -57,10 +57,35 @@
 //**Output:**
 //Bb
 // youtube:
-//    logic:
-//    code:
+//    logic: https://youtu.be/PReV0m4msCA
+//    code:https://youtu.be/K5NG2Rdtbu0
 
 package PrimeContent.ElevateSet01;
-
+import java.util.*;
 public class CharactersInAllNStringValues_19 {
+    public static void main(String[] args) {
+        Scanner sc =  new Scanner(System.in);
+        System.out.println("enter n value:");
+        int n = sc.nextInt();
+        sc.nextLine();
+        System.out.println("enter string value:");
+        String first = sc.nextLine();
+        Set<Character> common = new HashSet<>();
+        for(char c : first.toCharArray()){
+            common.add(c);
+        }
+        for (int i = 1; i < n; i++) {
+            String s = sc.nextLine();
+            Set<Character> current = new HashSet<>();
+            for (char c : s.toCharArray()) {
+                current.add(c);
+            }
+            common.retainAll(current);
+        }
+        List<Character> result = new ArrayList<>(common);
+        Collections.sort(result);
+        for(char c: result){
+            System.out.print(c);
+        }
+    }
 }

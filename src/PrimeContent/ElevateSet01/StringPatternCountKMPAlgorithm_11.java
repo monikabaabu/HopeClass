@@ -41,41 +41,59 @@
 //
 //        Output:
 //        Count=2
-
+// youtube:
+//         logic:  https://youtu.be/S50mCVovRwQ
+//         code: https://youtu.be/A6qCbbaoO84?si=aVMm3UmqDmlRq84u
 package PrimeContent.ElevateSet01;
 
 import java.util.Scanner;
 
 public class StringPatternCountKMPAlgorithm_11 {
-//    private static boolean search(String s1, String s2,int i1, int i2){
-//        if(i2 == s2.length()){
-//            return true;
-//        }
-//        if(i1>= s1.length() || s1.charAt(i1) != s2.charAt(i2)){
-//            return false;
-//        }
-//        return search(s1,s2,i1+1,i2+1);
-//    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s1 = sc.next();
         String s2 = sc.next();
-        int count = 0;
-        boolean res = false;
-        int j=0;
-        for (int i = 0; i < s1.length();) {
-            if (s1.charAt(i) == s2.charAt(j)) {
+        int keylen = s2.length();
+        int slen = s1.length();
+        int[] lps = new int[keylen];
+        lps[0]=0;
+        int len =0;
+        for (int i = 1; i < keylen ; ) {
+            if(s2.charAt(i) == s2.charAt(len)){
+                lps[i] = len+1;
                 i++;
-                j++;
-                if(j==s2.length()){
-                    count++;
-                    i = i+j-1;
-                }
-//                res = search(s1, s2, i,0);
-//                if (res) {
-//                    count++;
-//                }
+                len++;
             }
+            else{
+                if(len ==0){
+                    lps[i] =0;
+                    i++;
+                }
+                else{
+                    len = lps[len-1];
+                }
+            }
+        }
+        int count =0;
+        for (int si = 0,ki = 0; si < slen ;) {
+            if(s1.charAt(si)== s2.charAt(ki)){
+                si++;
+                ki++;
+                if(ki== s2.length()){
+                    count++;
+                    ki=0;
+                }
+            }
+            else {
+                if(ki==0){
+                    si++;
+                }
+                else{
+                    ki= lps[ki-1];
+                }
+            }
+
         }
         System.out.println(count);
     }
