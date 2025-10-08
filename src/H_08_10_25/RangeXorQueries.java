@@ -29,7 +29,7 @@
 //        6
 //        4
 
-//package H_08_10_25;
+package H_08_10_25;
 import java.io.*;
 import java.util.*;
 public class RangeXorQueries {

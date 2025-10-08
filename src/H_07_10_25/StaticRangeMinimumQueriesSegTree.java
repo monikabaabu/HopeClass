@@ -24,6 +24,7 @@
 //        3 3
 //
 //        Output:
+
 //        2
 //        1
 //        1
@@ -32,55 +33,52 @@
 package H_07_10_25;
 import java.io.*;
 import java.util.*;
-
 public class StaticRangeMinimumQueriesSegTree {
-    private static int find(int[] arr, int node, int leftNode, int rightNode, int leftQuery, int rightQuery) {
-        if (leftNode > rightQuery || rightNode < leftQuery) {
-            return Integer.MAX_VALUE;
+
+    private static long find(long[] arr , int node, int leftNode, int rightNode, int leftQuery, int rightQuery){
+        if(leftQuery> rightNode || rightQuery <leftNode){
+            return Long.MAX_VALUE;
         }
-        if (leftQuery <= leftNode && rightNode <= rightQuery) {
+        if(leftQuery <= leftNode && rightQuery >= rightNode){
             return arr[node];
         }
-        int mid = (leftNode + rightNode) / 2;
-        int left = find(arr, node * 2, leftNode, mid, leftQuery, rightQuery);
-        int right = find(arr, node * 2 + 1, mid + 1, rightNode, leftQuery, rightQuery);
-        return Math.min(left, right);
+        int mid = (leftNode+rightNode)/2;
+        long left = find(arr, 2*node,leftNode, mid, leftQuery, rightQuery);
+        long right = find(arr, 2*node+1,  mid+1,rightNode, leftQuery, rightQuery);
+        return  Math.min(left,right);
     }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args)throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
         int n = Integer.parseInt(st.nextToken());
         int q = Integer.parseInt(st.nextToken());
-
-        int N = 1;
-        while (N < n) N <<= 1;
-        int[] arr = new int[2 * N];
-        Arrays.fill(arr, Integer.MAX_VALUE);
-        arr[0] = 0;
-
+        int N =0;
+        while ((1<<N)<n){
+            N++;
+        }
+        N=1<<N;
+        long[] segmentTable = new long[2*N];
+        Arrays.fill(segmentTable,Long.MAX_VALUE);
+        segmentTable[0] = 0;
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            arr[i + N] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i <n; i++) {
+            segmentTable[i+N] = Long.parseLong(st.nextToken());
         }
-
-        for (int i = N - 1; i >= 1; i--) {
-            arr[i] = Math.min(arr[2 * i], arr[2 * i + 1]);
+        for (int i = N-1; i >=1 ; i--) {
+            segmentTable[i] = Math.min(segmentTable[2*i] , segmentTable[2*i+1]);
         }
+        List<Long> list = new ArrayList<>();
 
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < q; i++) {
+        for (int i = 0; i <q ; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            int res = find(arr, 1, 0, N - 1, x - 1, y - 1);
+            int leftQuery = Integer.parseInt(st.nextToken());
+            int rightQuery = Integer.parseInt(st.nextToken());
+            long res =find(segmentTable,1,0,N-1,leftQuery-1,rightQuery-1);
             list.add(res);
         }
-
-        for (int val : list) {
-            bw.write(val + "\n");
+        for (long val: list){
+            bw.write(val+"\n");
         }
         bw.flush();
     }
